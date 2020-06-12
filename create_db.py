@@ -50,7 +50,7 @@ def addMessagesFromChannel(channel, file):
         userName = message['author']['name']
         content = message['content']
         
-        if re.match('^PokerStars ', content) is not None:
+        if len(content) > 500:
             print(content)
             continue
 
