@@ -12,15 +12,16 @@
       </div><!-- /.card-header -->
       <div class="card-body card-comments">
         {% for message in messages %}
-        <a  href="/messages/around/{{message.id}}">{{chart}}
           <div class="comment-text">
+            <a  href="/messages/around/{{message.id}}">
             <span class="username">
               {{message.userName}}
               <span class="text-muted float-right">{{message.timestamp}}</span>
             </span>
+          </a>
             {{message.content}}
           </div>
-        </a>
+
         {% endfor %}
         <!-- /.comment-text -->
       </div><!-- /.card-body -->
