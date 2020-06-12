@@ -21,22 +21,19 @@ def filterWords(wordFreq):
 def adjustFreqs(wordFreqs, userWords):
     userTotalFreqs = {}
     for userName, userWordFreqs in userWords.items():
-        for count in userWordFreqs.values():
-            userTotalFreqs.setdefault(userName, 0)
-            userTotalFreqs[userName] += count
+        userTotalFreqs[userName] = sum(userWordFreqs.values())
 
-    totalFreqs = 0
-    for count in wordFreqs.values():
-        totalFreqs += count
+    totalFreqs = sum(wordFreqs.values())
 
     newWordFreqs = {}
     for word, count in wordFreqs.items():
-        totalCount = 0
+        normalizedCounts = []
         for userName, userWordFreqs in userWords.items():
             if word in userWordFreqs:
-                totalCount += userWordFreqs[word]/userTotalFreqs[userName]
-        avgCount = totalCount/len(userWords)
-        newWordFreqs[word] = count*(count/totalFreqs)/avgCount
+                normalizedCounts.append(userWordFreqs[word]/userTotalFreqs[userName])
+        avgNormalizedCounts = sum(normalizedCounts)/len(userWords)
+        normalizedCount = count/totalFreqs
+        newWordFreqs[word] = count*(normalizedCount/avgNormalizedCounts)
     return newWordFreqs
 
 def generateClouds(fileName, wordFreq):
@@ -49,6 +46,7 @@ def generateClouds(fileName, wordFreq):
     plt.axis("off") 
     plt.tight_layout(pad = 0) 
     if (fileName != None):
+        print("Creating file", fileName)
         plt.savefig(fileName)
     else:
         plt.show()
