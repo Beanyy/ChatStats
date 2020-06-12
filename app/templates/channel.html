@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <section class="col">
+  <div class="card card-primary card-outline">
+    <div class="card-header">
+      <h3 class="card-title">
+        <i class="fas fa-chart-pie mr-1"></i>
+        {{activeName}} Statistics
+      </h3>
+      <div class="card-tools">
+        <ul class="nav nav-pills ml-auto">
+          {% for chart in charts %}
+          <li class="nav-item">
+            <a class="nav-link {% if loop.first %}active{% endif %}" href="#{{ chart }}" data-toggle="tab">{{chart}}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div><!-- /.card-header -->
+    <div class="card-body">
+      <div class="tab-content p-0">
+        {% for chart in charts %}
+        <div class="chart tab-pane {% if loop.first %}active{% endif %}" id="{{ chart }}" style="position: relative; height: 300px;">
+          <canvas id="{{ chart }}-canvas" height="300" style="height: 300px;"></canvas>
+       </div>
+        {% endfor %}
+      </div>
+    </div><!-- /.card-body -->
+  </div>
+</section>
+  <!-- /.card -->
+</div>
+<div class="row">
+  <section class="col">
+    <div class="card card-primary card-outline">
+      <div class="card-header">
+        <h3 class="card-title">
+          <i class="fas fa-edit"></i>
+          User Stats
+        </h3>
+      </div>
+      <div class="card-body">
+        <h4>Users</h4>
+        <div class="row">
+          <div class="col-2 col-sm-2">
+            <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+              {% for userName, userId in usersIds.items() %}
+              <a class="nav-link usertab {% if loop.first %}active{% endif %}" id="vert-tabs-{{ userName }}-tab" data-toggle="pill" href="#vert-tabs-{{ userName }}" role="tab" aria-controls="vert-tabs-{{ userName }}" aria-selected="{% if loop.first %}true{% else %}false{% endif %}">{{ userName }}</a>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-7 col-sm-9">
+            <div class="tab-content" id="vert-tabs-tabContent">
+              {% for userName, userId in usersIds.items() %}
+              <div class="tab-pane text-left fade {% if loop.first %}text-left show active{% endif %}" id="vert-tabs-{{ userName }}" role="tabpanel" aria-labelledby="vert-tabs-{{ userName }}-tab">
+                <div class="row">
+                  <section class="col">
+                    <div class="card card-secondary card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title">{{userName}}'s Pictures</h3>
+                        <div class="holder imglist-holder card-tools" id="imglist-holder-{{ userName }}"></div>
+                      </div>
+                      <div class="card-body">
+                        <ul id="imglist-{{userName}}">
+                          {% for attachment in attachments[userName] %}
+                          <div class="imglist-item"><a href="{{attachment}}"><img class="lazyload" src="/dist/img/loading.png" data-src="{{attachment}}"></a></div>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                {% for wordListName in wordLists %}
+                {% if loop.index0 % 2 == 0 %}
+                <div class="row">
+                {% endif %}
+                  <div class="col">
+                    {% set tableIdx = loop.index0 %}
+                    {% include 'word-list.html' %}
+                  </div>
+                {% if loop.index0 % 2 == 1 %}  
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% for userChart in userCharts %}
+                <div class="row">
+                  <section class="col">
+                    <div class="card card-secondary card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title">{{userChart}}</h3>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart" style="position: relative; height: 300px;">
+                          <canvas class="chart-{{userName}}" id="{{ userChart }}-{{userName}}-canvas-{{loop.index0}}" height="300" style="height: 300px;"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                {% endfor %}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.card -->
+  </section>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="/dist/js/pages/dashboard.js"></script>
+<script type="text/javascript">
+var userIds = {
+  {% for userName, userId in usersIds.items() %}"{{ userName }}":{{ userId}},{% endfor %}  
+}
+$(function () {
+  {% for chart in charts %}
+  getChartData($("#{{chart}}-canvas")[0].getContext('2d'), channelChartDataURL({{loop.index0}}))
+  {% endfor %}
+})
+</script>
+{% endblock %}

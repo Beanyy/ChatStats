@@ -1,0 +1,22 @@
+<div class="card card-secondary card-outline">
+    <div class="card-header">
+      <h3 class="card-title">{{wordListName}} List</h3>
+      <div class="holder card-tools" id="{{wordListName}}-holder-{{ userName }}"></div>
+      <input class="form-control table-search" type="search" placeholder="Search" aria-label="Search" id="{{wordListName}}-search-{{ userName }}">
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{wordListName}}</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody id="{{wordListName}}-{{ userName }}-{{tableIdx}}" class="wordTable-{{ userName }}">
+        </tbody>
+      </table>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->

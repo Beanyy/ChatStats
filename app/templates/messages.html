@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+  <section class="col">
+    <div class="card card-primary card-outline">
+      <div class="card-header">
+        <h3 class="card-title">
+          <i class="fas fa-chart-pie mr-1"></i>
+          {{headerString}}
+        </h3>
+        </h3>
+      </div><!-- /.card-header -->
+      <div class="card-body card-comments">
+        {% for message in messages %}
+        <a  href="/messages/around/{{message.id}}">{{chart}}
+          <div class="comment-text">
+            <span class="username">
+              {{message.userName}}
+              <span class="text-muted float-right">{{message.timestamp}}</span>
+            </span>
+            {{message.content}}
+          </div>
+        </a>
+        {% endfor %}
+        <!-- /.comment-text -->
+      </div><!-- /.card-body -->
+    </div>
+  </section>
+</div>
+<div class="card card-widget">
+
+</div>
+{% endblock %}
