@@ -2,3 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.vscode
+app/static/dist/img/cloud*
+app/static/plugins
+chats
+parse.py
