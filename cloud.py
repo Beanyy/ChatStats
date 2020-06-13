@@ -11,11 +11,14 @@ def mkdirIfNotExists(dirName):
     if not os.path.exists(dirName):
         os.mkdir(dirName)
 
+def isBlobEmoji(word):
+    return re.match('^blob\w+', word) is not None
+
 def filterWords(wordFreq):
     for word in myStopWords:
         if word in wordFreq:
             del wordFreq[word]
-    return { k:v for k,v in wordFreq.items() if not k.isnumeric() }
+    return { k:v for k,v in wordFreq.items() if not (k.isnumeric() or isBlobEmoji(k))}
 
 def adjustFreqs(wordFreqs, userWords):
     userTotalFreqs = {}
@@ -53,6 +56,8 @@ def generateClouds(fileName, wordFreq):
 
 def generateCloudFolder(folderName, userWords):
     for userName, wordFreq in userWords.items():
+        if len(wordFreq) == 0:
+            continue
         cloudFile = os.path.join(folderName, str(userName) + '.png')
         generateClouds(cloudFile, adjustFreqs(wordFreq, userWords))
 
