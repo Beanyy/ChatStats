@@ -13,6 +13,11 @@
 }
 .odd {
     background: #f6f4f4;
+}
+.search-success {
+    background-color: #d6ffdb;
+}
+
 img.loading-img {
     margin: auto;
     display: block;

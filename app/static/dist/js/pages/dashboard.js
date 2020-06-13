@@ -127,9 +127,12 @@ $(function () {
     var catagory = $(this).attr("id").split("-")[0];
     var val = $(this).val()
     var page = 0
-    $("#" + catagory + "-" + userName + ' > tr > td:first-child').each(function(index) {
-       if ($(this).text() == val)
+    $(".search-success").removeClass("search-success")
+    $("#" + $(this).attr("id").replace('search-', '') + ' > tr > td:first-child').each(function(index) {
+       if ($(this).text() == val) {
+        $(this).parent().addClass("search-success")
         return page = (index/itemsPerPage + 1)
+       }
     });
     if (page > 0) {
       $("#" + catagory + "-holder-" + userName).jPages(Math.floor(page))
