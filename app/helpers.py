@@ -191,8 +191,19 @@ def getSubjectivity(**kwargs):
     return 0
 
 @lru_cache()
+def getReactionCounts(**kwargs):
+    return len(dbGetMessageExts(0, **kwargs))
+
+@lru_cache()
+def getAttachmentCounts(**kwargs):
+    return len(dbGetMessageExts(1, **kwargs))
+
+@lru_cache()
 def getMessageCounts(**kwargs):
     return len(dbGetMessageContents(**kwargs))
+
+def getAvgWordLength(**kwargs):
+    return getCharacterCounts(**kwargs)/getWordCounts(**kwargs)
 
 def getAvgMessageLength(**kwargs):
     return getCharacterCounts(**kwargs)/getMessageCounts(**kwargs)
@@ -246,14 +257,18 @@ class ChatMetric:
     def name(self):
         return self._name
 
-channelMsgCnts = ChatMetric('ChannelMsgCounts', getMessageCounts, returnType=int, key='channelId')
+channelMsgCnts = ChatMetric('ChannelMessages', getMessageCounts, returnType=int, key='channelId')
+channelReactions = ChatMetric('ChannelReactions', getReactionCounts, returnType=int, key='channelId')
+channelMsgCnts = ChatMetric('ChannelAttachment', getAttachmentCounts, returnType=int, key='channelId')
 
 msgCnts = ChatMetric('MsgCounts', getMessageCounts, returnType=int)
 wrdCnts = ChatMetric('WordCounts', getWordCounts, returnType=int)
-charCnts = ChatMetric('CharacterCounts', getCharacterCounts, returnType=int)
-msgSize = ChatMetric('MsgLength', getCharacterCounts, returnType=int)
+charCnts = ChatMetric('AvgWordLength', getAvgWordLength, returnType=int)
+msgSize = ChatMetric('AvgMsgLength', getAvgMessageLength, returnType=int)
 polarityCnts = ChatMetric('Polarity', getPolarity, returnType=int)
 subjectivityCnts = ChatMetric('Subjectivity', getSubjectivity, returnType=int)
+reactionCnts = ChatMetric('Reactions', getReactionCounts, returnType=int)
+attachmentCnts = ChatMetric('Attachments', getAttachmentCounts, returnType=int)
 
 monAct = ChatMetric('MonthlyPosts', getTimeMonths)
 hourAct = ChatMetric('HourlyPosts', getTimeHours)
@@ -266,8 +281,8 @@ lolList = ChatMetric('lol', getLolList)
 
 wordListMetrics = [wordList, reactionList, hashtagList, lolList]
 userMetrics = [monAct, hourAct, weekAct]
-channelMetrics = [msgCnts, wrdCnts, charCnts, msgSize, polarityCnts, subjectivityCnts]  + userMetrics
-chatMetrics = [channelMsgCnts] + channelMetrics
+channelMetrics = [msgCnts, wrdCnts, charCnts, msgSize, polarityCnts, subjectivityCnts, reactionCnts, attachmentCnts]  + userMetrics
+chatMetrics = [channelMsgCnts, channelReactions, channelMsgCnts] + channelMetrics
 
 def getChannelChartLists():
     return {'charts': [x.name() for x in channelMetrics]}
