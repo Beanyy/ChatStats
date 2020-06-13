@@ -118,7 +118,8 @@ def getWordCounts(**kwargs):
         words += len(message.content.split()) 
     return words
 
-removePunctiationRegex = r'[\.\^\$\*\+\?\(\)\[\{\\\'’`:{}<>!@#%&-_=;",/~]+'
+#Intentionally removing # and @ for this list
+removePunctiationRegex = r'[\.\^\$\*\+\?\(\)\[\{\\\'\|’`:{}<>!”“",/~_=;%&-]+'
 myStopWords = [re.sub(removePunctiationRegex, '', word) for word in STOPWORDS]
 print(myStopWords)
 @lru_cache()
