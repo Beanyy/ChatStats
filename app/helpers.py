@@ -3,6 +3,7 @@ from app.models import Chat, Channel, Message, User, MessageExt
 from functools import lru_cache
 from sqlalchemy.sql import and_
 from textblob import TextBlob
+from wordcloud import STOPWORDS
 import re
 
 def chatChannelUserFilter(userId=None, channelId=None, chatId=None):
@@ -117,18 +118,21 @@ def getWordCounts(**kwargs):
         words += len(message.content.split()) 
     return words
 
+removePunctiationRegex = r'[\.\^\$\*\+\?\(\)\[\{\\\'’`:{}<>!@#%&-_=;",/~]+'
+myStopWords = [re.sub(removePunctiationRegex, '', word) for word in STOPWORDS]
+print(myStopWords)
 @lru_cache()
 def getWordList(**kwargs):
     wordCounts = {}
     for message in dbGetMessageContents(**kwargs):
         words = message.content.split()
         for word in words:
-            if (word.find('http') >= 0): #Skip links and small words
-                continue
-            word = re.sub(r'\W+', '', word) #Remove non-alphanumerics
-            if (word.isspace()):
-                continue
             word = word.lower() #Lower case word
+            if (word.find('http') >= 0): #Skip links
+                continue
+            word = re.sub(removePunctiationRegex, '', word)
+            if (len(word) == 0 or word in myStopWords or word.isnumeric()):
+                continue
             wordCounts.setdefault(word, 0)
             wordCounts[word] += 1
     return wordCounts

@@ -11,7 +11,6 @@ def mkdirIfNotExists(dirName):
     if not os.path.exists(dirName):
         os.mkdir(dirName)
 
-myStopWords = [re.sub(r'\W+', '', word) for word in STOPWORDS]
 def filterWords(wordFreq):
     for word in myStopWords:
         if word in wordFreq:
