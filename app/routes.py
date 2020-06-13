@@ -123,7 +123,7 @@ def _get_user_words(activeType, activeId, userId, typeId):
 def searchMessages(userName, word, **kwargs):
     messages = []
     for message in Message.query.filter(chatChannelUserFilter(**kwargs)).order_by(Message.timestamp).all():
-        words = message.content.split()
+        words = message.content.lower().split()
         if word in words:
             messages.append({'userName':userName, 
                              'content':message.content,
