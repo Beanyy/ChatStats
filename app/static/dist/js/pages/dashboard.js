@@ -142,9 +142,10 @@ $(function () {
     }
   });
 
-  $(".chart-channel").each(function() {
-    var chartType = parseInt($(this).data("charttype"));
-    getChartData($(this), -1, chartType)
+  $(".chart-channel-nav").click(function() {
+    var linkDiv = $($(this).attr("href"))
+    var chartType = parseInt($(linkDiv).data("charttype"));
+    getChartData(linkDiv, -1, chartType)
   })
 
   /* initiate plugin */
@@ -158,6 +159,7 @@ $(function () {
   })
   
   lazyload();
-  $( "#vert-tabs-tab > a:first-child").trigger( "click" );
+  $( ".chart-channel-nav.active").trigger( "click" );
+  $( ".usertab.active").trigger( "click" );
 })
   /* Chart.js Charts */

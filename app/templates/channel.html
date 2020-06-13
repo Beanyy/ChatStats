@@ -12,7 +12,7 @@
         <ul class="nav nav-pills ml-auto">
           {% for chart in charts %}
           <li class="nav-item">
-            <a class="nav-link {% if loop.first %}active{% endif %}" href="#{{ chart }}" data-toggle="tab">{{chart}}</a>
+            <a class="nav-link {% if loop.first %}active{% endif %} chart-channel-nav" href="#{{ chart }}" data-toggle="tab">{{chart}}</a>
           </li>
           {% endfor %}
         </ul>
