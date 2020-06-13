@@ -258,7 +258,7 @@ class ChatMetric:
 
 channelMsgCnts = ChatMetric('ChannelMessages', getMessageCounts, returnType=int, key='channelId')
 channelReactions = ChatMetric('ChannelReactions', getReactionCounts, returnType=int, key='channelId')
-channelMsgCnts = ChatMetric('ChannelAttachment', getAttachmentCounts, returnType=int, key='channelId')
+channelAttachmentCnts = ChatMetric('ChannelAttachment', getAttachmentCounts, returnType=int, key='channelId')
 
 msgCnts = ChatMetric('MsgCounts', getMessageCounts, returnType=int)
 wrdCnts = ChatMetric('WordCounts', getWordCounts, returnType=int)
@@ -281,7 +281,7 @@ lolList = ChatMetric('lol', getLolList)
 wordListMetrics = [wordList, reactionList, hashtagList, lolList]
 userMetrics = [monAct, hourAct, weekAct]
 channelMetrics = [msgCnts, wrdCnts, charCnts, msgSize, polarityCnts, subjectivityCnts, reactionCnts, attachmentCnts]  + userMetrics
-chatMetrics = [channelMsgCnts, channelReactions, channelMsgCnts] + channelMetrics
+chatMetrics = [channelMsgCnts, channelReactions, channelAttachmentCnts] + channelMetrics
 
 def getChannelChartLists():
     return {'charts': [x.name() for x in channelMetrics]}
