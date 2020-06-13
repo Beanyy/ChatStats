@@ -54,7 +54,8 @@
       options: chartOptions
     })
   }
-  function getChartData(canvas, url) {
+  function getChartData(canvasDiv, userId, chartType) {
+    url = (userId > 0) ? userChartDataURL(userId, chartType) : channelChartDataURL(chartType)
     $.ajax({
         url: url,
         success: function (result) {
@@ -64,7 +65,8 @@
             data.push(item.data);       
             labels.push(item.label);       
           });
-          renderChart(canvas, data, labels);
+          canvasDiv.find('img').hide()
+          renderChart(canvasDiv.find('canvas')[0].getContext('2d'), data, labels);
         },
     });
   }
@@ -80,9 +82,9 @@
   }
 
   var itemsPerPage = 10
-  function getWordData(table, url, userId) {
+  function getWordData(table, userId, chartType) {
     $.ajax({
-        url: url,
+        url: userWordDataURL(userId, chartType),
         success: function (result) {
           $.each(result, function(index,item) {
               var myUrl = ['/messages', 'search', activeType, activeId, userId, item.label.replace("#", "HASHTAG")].join('/')
@@ -111,12 +113,12 @@ $(function () {
 
     $(".wordTable-" + userName).each(function(){
       var chartType = parseInt($(this).attr("id").split("-")[2]);
-      getWordData($(this).empty(), userWordDataURL(userId, chartType), userId)
+      getWordData($(this).empty(), userId, chartType)
     })
 
-    $(".chart-" + userName).each(function(){
-      var chartType = parseInt($(this).attr("id").split("-")[3]);
-      getChartData($(this)[0].getContext('2d'), userChartDataURL(userId, chartType))
+    $(".chart-user-" + userName).each(function(){
+      var chartType = parseInt($(this).data("charttype"));
+      getChartData($(this), userId, chartType)
     })
   });
 
@@ -137,6 +139,10 @@ $(function () {
     }
   });
 
+  $(".chart-channel").each(function() {
+    var chartType = parseInt($(this).data("charttype"));
+    getChartData($(this), -1, chartType)
+  })
 
   /* initiate plugin */
   $("div.imglist-holder").each(function(index) {

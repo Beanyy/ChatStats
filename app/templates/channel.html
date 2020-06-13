@@ -21,8 +21,9 @@
     <div class="card-body">
       <div class="tab-content p-0">
         {% for chart in charts %}
-        <div class="chart tab-pane {% if loop.first %}active{% endif %}" id="{{ chart }}" style="position: relative; height: 300px;">
-          <canvas id="{{ chart }}-canvas" height="300" style="height: 300px;"></canvas>
+        <div class="chart chart-channel tab-pane {% if loop.first %}active{% endif %}" data-charttype="{{loop.index0}}" id="{{ chart }}" style="position: relative; height: 300px;">
+          <img src="/dist/img/loading.svg"  class="loading-img">
+          <canvas></canvas>
        </div>
         {% endfor %}
       </div>
@@ -64,7 +65,7 @@
                       <div class="card-body">
                         <ul id="imglist-{{userName}}">
                           {% for attachment in attachments[userName] %}
-                          <div class="imglist-item"><a href="{{attachment}}"><img class="lazyload" src="/dist/img/loading.png" data-src="{{attachment}}"></a></div>
+                          <div class="imglist-item"><a href="{{attachment}}"><img class="lazyload" src="/dist/img/loading.gif" data-src="{{attachment}}"></a></div>
                           {% endfor %}
                         </ul>
                       </div>
@@ -91,8 +92,9 @@
                         <h3 class="card-title">{{userChart}}</h3>
                       </div>
                       <div class="card-body">
-                        <div class="chart" style="position: relative; height: 300px;">
-                          <canvas class="chart-{{userName}}" id="{{ userChart }}-{{userName}}-canvas-{{loop.index0}}" height="300" style="height: 300px;"></canvas>
+                        <div class="chart chart-user-{{userName}}" data-charttype="{{loop.index0}}" style="position: relative; height: 300px;">
+                          <img src="/dist/img/loading.svg" class="loading-img">
+                          <canvas></canvas>
                         </div>
                       </div>
                     </div>
@@ -120,10 +122,5 @@
 var userIds = {
   {% for userName, userId in usersIds.items() %}"{{ userName }}":{{ userId}},{% endfor %}  
 }
-$(function () {
-  {% for chart in charts %}
-  getChartData($("#{{chart}}-canvas")[0].getContext('2d'), channelChartDataURL({{loop.index0}}))
-  {% endfor %}
-})
 </script>
 {% endblock %}

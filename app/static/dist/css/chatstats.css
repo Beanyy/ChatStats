@@ -13,4 +13,7 @@
 }
 .odd {
     background: #f6f4f4;
+img.loading-img {
+    margin: auto;
+    display: block;
 }
