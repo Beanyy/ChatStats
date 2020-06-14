@@ -108,6 +108,10 @@
 
 $(function () {
   $(".usertab").click(function() {
+    if ($(this).data("clicked") == "1")
+      return
+    $(this).data("clicked", "1")
+
     var userName = $(this).attr("id").split("-")[2];
     var userId = userIds[userName];
 
@@ -144,7 +148,10 @@ $(function () {
 
   $(".chart-channel-nav").click(function() {
     var linkDiv = $($(this).attr("href"))
-    var chartType = parseInt($(linkDiv).data("charttype"));
+    var chartType = parseInt($(linkDiv).data("charttype"))
+    if (linkDiv.data("clicked") == "1")
+      return
+    linkDiv.data("clicked", "1")
     getChartData(linkDiv, -1, chartType)
   })
 
