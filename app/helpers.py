@@ -144,7 +144,7 @@ def getHashtagList(**kwargs):
     for message in dbGetMessageContents(**kwargs):
         words = message.content.split()
         for word in words:
-            if (re.match('^#+', word) is None):
+            if (re.match('^#\w', word) is None):
                 continue
             word = word.lower() #Lower case word
             wordCounts.setdefault(word, 0)

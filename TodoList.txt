@@ -6,3 +6,4 @@
 - Clean up DB code. Especially when returning message as a dict
 - Decouple routing and helpers and db code
 - Highlight searched message in the message finder
+- Remove all of the split() crap I have in the javascript
