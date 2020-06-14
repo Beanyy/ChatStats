@@ -1,0 +1,8 @@
+- Add video viewer for attachments
+- Make a message generator!
+- Summarization of someone's messages
+- Reaction Finder
+- Find most reacted messages
+- Clean up DB code. Especially when returning message as a dict
+- Decouple routing and helpers and db code
+- Highlight searched message in the message finder
