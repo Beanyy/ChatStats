@@ -138,6 +138,15 @@ $(function () {
         return page = (index/itemsPerPage + 1)
        }
     });
+    if (page == 0 && catagory == 'Hashtags') {
+      val = "#" + val
+      $("#" + $(this).attr("id").replace('search-', '') + ' > tr > td:first-child').each(function(index) {
+        if ($(this).text() == val) {
+         $(this).parent().addClass("search-success")
+         return page = (index/itemsPerPage + 1)
+        }
+     });
+    }
     if (page > 0) {
       $("#" + catagory + "-holder-" + userName).jPages(Math.floor(page))
       $(this).css("background-color", "#d6ffdb")

@@ -16,6 +16,6 @@ Run ```python create_db.py``` to initiaize database.
 
 Run ```python cloud.py``` to generate word cloud images.
 
-```flask run``` to start server.
+```python run.py``` to start server.
 
 Go to 127.0.0.1:5000 to view.
