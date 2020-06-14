@@ -26,6 +26,9 @@ def appendCloudToAttachments(channelAttachments, activeType, activeId):
         attachmentList.insert(0, cloudURL)
     return channelAttachments
 
+def sortDictByKeys(d):
+    return {k:v for k, v in sorted(d.items(), key=lambda item: item[0])}
+
 def formatAsLabelDataArray(d, sort=False):
     if sort:
         return [{'label': k, 'data':v} for k, v in sorted(d.items(), key=lambda item: item[1], reverse=True)]
@@ -72,7 +75,7 @@ def getActiveMetricList(activeType):
     return ACTIVE_TYPES[activeType]['metricList']
 
 @app.route('/<string:activeType>/<int:activeId>')
-def channel(activeType, activeId):
+def channelRoute(activeType, activeId):
     if not isValidURL(activeType, activeId):
         abort(404)
 
@@ -82,7 +85,7 @@ def channel(activeType, activeId):
                                            charts=[x.name() for x in getActiveMetricList(activeType)],
                                            userCharts=[x.name() for x in userMetrics], 
                                            wordLists=[x.name() for x in wordListMetrics],
-                                           usersIds=getUserIds(**kwargs),
+                                           usersIds=sortDictByKeys(getUserIds(**kwargs)),
                                            activeId=activeId,
                                            activeType=activeType,
                                            activeName=getActiveName(activeType, activeId),
@@ -132,7 +135,7 @@ def searchMessages(userName, word, **kwargs):
     return messages
 #/messages/search/channel/1/1/lol
 @app.route('/messages/search/<string:activeType>/<int:activeId>/<int:userId>/<string:word>')
-def messageSearchPage(activeType, activeId, userId, word):
+def messageSearchPageRoute(activeType, activeId, userId, word):
     if not isValidURL(activeType, activeId):
         abort(404)
     word = word.replace("HASHTAG", "#")
@@ -157,7 +160,7 @@ def searchMessagesTime(channelId, timestamp):
     return messages
 
 @app.route('/messages/around/<int:messageId>')
-def messagePage(messageId):
+def messagePageRoute(messageId):
     if Message.query.filter_by(id=messageId).scalar() is None:
         abort(404)
     message = Message.query.get(messageId)

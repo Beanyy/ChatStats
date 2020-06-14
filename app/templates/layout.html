@@ -69,7 +69,7 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="/chat/{{ chatIds[chatName] }}" class="nav-link">
+                    <a href="/chat/{{ chatIds[chatName] }}" class="nav-link {% if chatName==activeName %}active {% endif %}">
                       <i class="far fa-circle nav-icon"></i>
                       <p><b>All Combined</b></p>
                     </a>
