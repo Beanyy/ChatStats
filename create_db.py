@@ -66,12 +66,14 @@ def addMessagesFromChannel(channel, file):
 
 def main():
     db.create_all()
+    #TODO: FIX THIS MESS OF PARSING HERE
     for file in glob.glob("chats/*.json"):
         chatName, tmp = file.split('-', 1)
         chatName = chatName[6:].replace(' ','')
         chat = get_or_create(db.session, Chat, name=chatName)
         
         channelName, _ = tmp.split('[', 1)
+        _, channelName = channelName.split('-', 1)
         channelName = channelName.replace(' ','')
         channel = get_or_create(db.session, Channel, name=channelName, chat_id=chat.id)
         print(channelName)

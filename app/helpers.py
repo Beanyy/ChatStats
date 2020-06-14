@@ -5,6 +5,7 @@ from sqlalchemy.sql import and_
 from textblob import TextBlob
 from wordcloud import STOPWORDS
 import re
+import bisect
 
 def chatChannelUserFilter(userId=None, channelId=None, chatId=None):
     criterion = Message.channel_id.in_(resolveChannel(channelId=channelId, chatId=chatId))
@@ -40,7 +41,7 @@ def getChatChannelNames():
     chats = {}
     for channel in dbGetChannels():
         chat = chats.setdefault(channel.chat.name, [])
-        chat.append(channel.name)
+        bisect.insort(chat, channel.name)
     return chats
 
 @lru_cache(maxsize=None)
