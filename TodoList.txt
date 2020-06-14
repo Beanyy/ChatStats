@@ -7,3 +7,12 @@
 - Decouple routing and helpers and db code
 - Highlight searched message in the message finder
 - Remove all of the split() crap I have in the javascript
+- Open pictures in gallary
+- Find way to search who said the most of one word and reactions
+- Stacked bar graph to show breakdown of messages per person my channel
+- Case sensitivity is messing with the search. Search in general doesn't work too well
+- Find messages around attachments
+- Fix title of webpage to be more approprite
+- Make pictures show in message history
+- Compare different years of data
+- Filter out quotes
