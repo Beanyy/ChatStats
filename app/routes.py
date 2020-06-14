@@ -9,8 +9,8 @@ from flask import render_template, request, send_from_directory, abort, jsonify
 
 @app.route('/')
 @app.route('/index')
-def index():
-    return render_template('index.html', **getChatAndChannelDict())
+def indexRoute():
+    return channelRoute('chat', 1)
 
 def getChannelAttachments(**kwargs):
     channelAttachments = {}
